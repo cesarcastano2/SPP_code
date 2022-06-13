@@ -16,8 +16,8 @@ conds = {'no_pert' 'same_mf' 'diff_f' 'diff_m' 'diff_fm'};
 
 
 fs = 240; %hz, resamp tm to df rate
-% proj = 'E:\SPP\Subjects\';
-proj = 'X:\SPP\subjects'; %NAS computer 
+proj = 'E:\SPP\Subjects\';
+% proj = 'X:\SPP\subjects'; %NAS computer
 
 
 for s = 1:length(subjs)
