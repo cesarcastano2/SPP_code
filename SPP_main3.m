@@ -5,7 +5,6 @@ clc
 
 % subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
 % subjs = {'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
-% subjs = {'SPP13' 'SPP14'};
 subjs = {'SPP9'};
 
 conds_f = {'0' '1' '2' '3' '4'};
@@ -119,13 +118,13 @@ end
         end
         markers_df_s.labels = markers_df.labels;
         
-        forces_df_s.FP1Cop = forces_df.FP1Cop_v1(Start_Time:Stop_Time,:);
-        forces_df_s.FP1For = forces_df.FP1For_v1(Start_Time:Stop_Time,:);
-        forces_df_s.FP1Mom = forces_df.FP1Mom_v1(Start_Time:Stop_Time,:);
-        forces_df_s.FP2Cop = forces_df.FP2Cop_v1(Start_Time:Stop_Time,:);
-        forces_df_s.FP2For = forces_df.FP2For_v1(Start_Time:Stop_Time,:);
-        forces_df_s.FP2Mom = forces_df.FP2Mom_v1(Start_Time:Stop_Time,:);
-        forces_df_s.labels = forces_df.labels;
+        forces_df.forces_df_s.FP1Cop = forces_df.FP1Cop_v1(Start_Time:Stop_Time,:);
+        forces_df.forces_df_s.FP1For = forces_df.FP1For_v1(Start_Time:Stop_Time,:);
+        forces_df.forces_df_s.FP1Mom = forces_df.FP1Mom_v1(Start_Time:Stop_Time,:);
+        forces_df.forces_df_s.FP2Cop = forces_df.FP2Cop_v1(Start_Time:Stop_Time,:);
+        forces_df.forces_df_s.FP2For = forces_df.FP2For_v1(Start_Time:Stop_Time,:);
+        forces_df.forces_df_s.FP2Mom = forces_df.FP2Mom_v1(Start_Time:Stop_Time,:);
+        forces_df.forces_df_s.labels = forces_df.labels;
         
         Frame_df_s = Frame_df_v1(Start_Time:Stop_Time,:);
         Time_df_s = Time_df_v1(Start_Time:Stop_Time,:);
@@ -185,7 +184,7 @@ end
         end
         
         for m = 1:length(forces_df.labels)
-            eval(['forces_df_c.' forces_df_s.labels{m} ' = convert_coords2conventional(forces_df_s. ' forces_df.labels{m} ');']);
+            eval(['forces_df_c.' forces_df.forces_df_s.labels{m} ' = convert_coords2conventional(forces_df.forces_df_s. ' forces_df.labels{m} ');']);
         end     
         
         %% Gait event check with force plates 
@@ -395,11 +394,12 @@ end
 %             subplot(2,3,c)
 %             ylabel('walkiing speed')
 %         end
-%% Clean workspace
-clear a b bins BW c COM COM_plus_speed counts Dflow_size e fc fs HSrefinePost HSrefinePre i istart m NOG s Start_Time  
     end
-end 
-%% plots 
+end
+%% Clean workspace
+clear a b bins BW COM COM_plus_speed counts Dflow_size e fc HSrefinePost HSrefinePre i istart m NOG Start_Time GE llmarkers P Time_df Time_df_s Time_df_v1 Time_real TOminpeakdistance TOminpeakheight sl_temp Total ws tf sw_temp Stop_Time stopidx startidx start_values start_value_pref dtm dflow_file dflow_treadmill_file fh;
+clear fitplot_actual_steplength fitplot_fitted_steplength fitplot_speed fitplot_stepfitted_minus_actualstep forces_df start_vlue_pref start_values startidx steplength_speed steplength_speed_all steplength_time steplength_time_all Stop_Time stopidx Frame_df Frame_df_s Frame_df_v1 LHS LTO RHS RTO ppp ;      
+%% plots
 % for m=1:length(subjs)
     for i=1:length(conds)
         figure(100)
