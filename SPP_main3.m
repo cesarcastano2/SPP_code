@@ -6,7 +6,7 @@ clc
 % subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
 % subjs = {'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
 % subjs = {'SPP13' 'SPP14'};
-subjs = {'SPP13'};
+subjs = {'SPP9'};
 
 conds_f = {'0' '1' '2' '3' '4'};
 % conds_f = {'3'};
@@ -369,10 +369,10 @@ end
 % %         ylim([0 0.3])
 %         title((conds{c}))
        
-        figure(7)
-        subplot(2,3,c)
-        plot(dtm.sway_s,'k-'), hold on
-        plot(GEgood(1:4:size(GEgood(:,1)),1),zeros(size(GEgood(1:4:size(GEgood(:,1)),1))),'r.')
+%         figure(7)
+%         subplot(2,3,c)
+%         plot(dtm.sway_s,'k-'), hold on
+%         plot(GEgood(1:4:size(GEgood(:,1)),1),zeros(size(GEgood(1:4:size(GEgood(:,1)),1))),'r.')
 % 
 %         
         
@@ -395,6 +395,8 @@ end
 %             subplot(2,3,c)
 %             ylabel('walkiing speed')
 %         end
+%% Clean workspace
+clear a b bins BW c COM COM_plus_speed counts Dflow_size e fc fs HSrefinePost HSrefinePre i istart m NOG s Start_Time  
     end
 end 
 %% plots 
