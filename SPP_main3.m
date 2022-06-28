@@ -5,7 +5,7 @@ clc
 
 % subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
 % subjs = {'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
-subjs = {'SPP9'};
+subjs = {'SPP8' 'SPP9'};
 
 conds_f = {'0' '1' '2' '3' '4'};
 % conds_f = {'3'};
@@ -397,8 +397,23 @@ end
     end
 end
 %% Clean workspace
-clear a b bins BW COM COM_plus_speed counts Dflow_size e fc HSrefinePost HSrefinePre i istart m NOG Start_Time GE llmarkers P Time_df Time_df_s Time_df_v1 Time_real TOminpeakdistance TOminpeakheight sl_temp Total ws tf sw_temp Stop_Time stopidx startidx start_values start_value_pref dtm dflow_file dflow_treadmill_file fh;
+clear a b bins BW COM COM_plus_speed counts Dflow_size e fc HSrefinePost HSrefinePre i istart m NOG Start_Time GE llmarkers P Time_df Time_df_s Time_df_v1 Time_real TOminpeakdistance TOminpeakheight sl_temp Total tf sw_temp Stop_Time stopidx startidx start_values start_value_pref dtm dflow_file dflow_treadmill_file fh;
 clear fitplot_actual_steplength fitplot_fitted_steplength fitplot_speed fitplot_stepfitted_minus_actualstep forces_df start_vlue_pref start_values startidx steplength_speed steplength_speed_all steplength_time steplength_time_all Stop_Time stopidx Frame_df Frame_df_s Frame_df_v1 LHS LTO RHS RTO ppp ;      
+%% detrended plot 
+conds_s= ["no_pert" "same_mf" "diff_f" "diff_m" "diff_fm"];
+m = 1;
+variation_steps.stack_p=[];
+for i=conds_s    
+variation_steps.(i).det_avg = mean(variation_steps.(i).slminusfit);
+variation_steps.(i).speedt_avg = mean(variation_steps.(i).speedtrend);
+variation_steps.stack_p(m,:) = [mean(variation_steps.(i).slminusfit), mean(variation_steps.(i).speedtrend)];
+m = m + 1;
+end
+figure
+bar(variation_steps.stack_p,'stacked')
+legend('detrended','speedtrend')
+set(gca, 'XTick', [1,2,3,4,5],'XTickLabel',{'no pert' 'same mf' 'diff f' 'diff m' 'diff fm'});
+ylabel('variance (m^2)')
 %% plots
 % for m=1:length(subjs)
     for i=1:length(conds)
@@ -545,6 +560,8 @@ for m=1:length(subjs)
     end
     title(subjs{m})
 end
+
+%% more plots 
 figure(200)
 % set(gca, 'XTick', [1,2],'XTickLabel',{'first' 'second'});
 % title('step length std halfs')
@@ -1284,21 +1301,24 @@ ylim([0 0.002])
 
 
 %% STACKED VAR
-for i=[7 8 9 1 2 3 4 5 6]
-    if (7<=i&&i<=9)
-        error_length_detrended(1,i-6)=std(variation_steps.(conds{i}).slminusfit(:));
-    elseif (1<=i&&i<=3)
-        error_length_detrended(2,i)=std(variation_steps.(conds{i}).slminusfit(:));
-    elseif (4<=i&&i<=6)
-        error_length_detrended(3,i-3)=std(variation_steps.(conds{i}).slminusfit(:));
-    end 
-end
-stridelength_stacked=[];
-for i=[1 4 7 2 5 8 3 6 9]
-e=size(stridelength_stacked,1)+1;
-stridelength_stacked(e,:)=[stridelength_variation_detrended_bar_plot(i),stridelength_variation_speedtrend_bar_plot(i)];
-stridelength_stacked(e+1,:)=[stridelength_variation_total_bar_plot(i),0]; 
-end 
+% for i=[7 8 9 1 2 3 4 5 6]
+%     if (7<=i&&i<=9)
+%         error_length_detrended(1,i-6)=std(variation_steps.(conds{i}).slminusfit(:));
+%     elseif (1<=i&&i<=3)
+%         error_length_detrended(2,i)=std(variation_steps.(conds{i}).slminusfit(:));
+%     elseif (4<=i&&i<=6)
+%         error_length_detrended(3,i-3)=std(variation_steps.(conds{i}).slminusfit(:));
+%     end 
+% end
+% stridelength_stacked=[];
+% for i=[1 4 7 2 5 8 3 6 9]
+% e=size(stridelength_stacked,1)+1;
+% stridelength_stacked(e,:)=[stridelength_variation_detrended_bar_plot(i),stridelength_variation_speedtrend_bar_plot(i)];
+% stridelength_stacked(e+1,:)=[stridelength_variation_total_bar_plot(i),0]; 
+% end 
+
+
+
 figure;
 h=bar([0.80 0.90 1.15 1.25 1.50 1.60],stridelength_stacked(1:6,:),'stacked'); hold on
 colors_stacks = jet(size(h,2));
