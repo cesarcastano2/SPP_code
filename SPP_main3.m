@@ -4,8 +4,8 @@ clearvars
 clc
 
 % subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
-% subjs = {'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
-subjs = {'SPP8' 'SPP9'};
+subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
+% subjs = {'SPP2'};
 
 conds_f = {'0' '1' '2' '3' '4'};
 % conds_f = {'3'};
@@ -541,25 +541,25 @@ set(gca, 'XTick', [1,2,3,4,5],'XTickLabel',{'nop' 'same t&m' 'dif time' 'dif mag
 title('walking speed std')
 
 
-for m=1:length(subjs)
-    figure(100)
-    subplot(4,2,2)
+% for m=1:length(subjs)
+%     figure(101)
+%     subplot(4,2,2)
+% %     title(subjs{m})
+% 
+%     for i=1:length(conds)
+% %         figure(200)
+% %         xlim([0 6])
+% %         ylim([0.6 0.85])
+%         plot([1 2],sl.(subjs{m}).standdev_halfs,'o-'), hold on
+%         
+%         xlim([0 3])
+%         set(gca, 'XTick', [1,2],'XTickLabel',{'first' 'second'});
+% %         plot(i,sl.(conds{i}).avg(m),'o'), hold on
+% %         plot(i,sl.(conds{i}).avg(2),'ro'), hold on
+% %         legend(conds)
+%     end
 %     title(subjs{m})
-
-    for i=1:length(conds)
-%         figure(200)
-%         xlim([0 6])
-%         ylim([0.6 0.85])
-        plot([1 2],sl.(subjs{m}).standdev_halfs,'o-'), hold on
-        
-        xlim([0 3])
-        set(gca, 'XTick', [1,2],'XTickLabel',{'first' 'second'});
-%         plot(i,sl.(conds{i}).avg(m),'o'), hold on
-%         plot(i,sl.(conds{i}).avg(2),'ro'), hold on
-%         legend(conds)
-    end
-    title(subjs{m})
-end
+% end
 
 %% more plots 
 figure(200)
