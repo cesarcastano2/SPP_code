@@ -4,19 +4,21 @@ clearvars
 clc
 
 % subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
-subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
-% subjs = {'SPP2'};
+% subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
+subjs = {'SPP23'};
+
+% subjs = {'SPP15' 'SPP16' 'SPP22'};
 
 conds_f = {'0' '1' '2' '3' '4'};
-% conds_f = {'3'};
+% conds_f = {'0'};
 
 conds = {'no_pert' 'same_mf' 'diff_f' 'diff_m' 'diff_fm'};
-% conds = {'diff_fm'};
+% conds = {'no_pert'};
 
 
 fs = 240; %hz, resamp tm to df rate
 proj = 'Z:\SPP\subjects\';
-% proj = 'X:\SPP\subjects'; %NAS computer
+% proj = 'X:\SPP\subjects'; %NAS COM_allputer
 
 
 for s = 1:length(subjs)
@@ -201,25 +203,35 @@ end
 % %         savefig(h,'Incline_gait_ACC.fig')
 % %         close(gcf)
 %% analysis
+COM_x=(markers_df_c.RASI(:,1)+markers_df_c.LASI(:,1)+markers_df_c.RPSI(:,1)+markers_df_c.LPSI(:,1))/4;
+COM.(conds{c}).(subjs{s})(:,1) = COM_x;
+COM.(conds{c}).avg(s,1) = mean(COM_x);
+COM.(conds{c}).standdev(s,1) = std(COM_x);
+COM.(conds{c}).vardev(s,1) = var(COM_x);
 
-COM=[];
-COM=(markers_df_c.RASI(:,2)+markers_df_c.LASI(:,2)+markers_df_c.RPSI(:,2)+markers_df_c.LPSI(:,2))/4;
+COM_all=(markers_df_c.RASI(:,2)+markers_df_c.LASI(:,2)+markers_df_c.RPSI(:,2)+markers_df_c.LPSI(:,2))/4;
+COM.(conds{c}).(subjs{s})(:,2) = COM_all;
+COM.(conds{c}).avg(s,2) = mean(COM_all);
+COM.(conds{c}).standdev(s,2) = std(COM_all);
+COM.(conds{c}).vardev(s,2) = var(COM_all);
 
-COM_vel=[];
+
+
+COM_all_vel=[];
 for i = 1:length(Time_real)-1
-    COM_vel(i) = (COM(i+1)-COM(i))/(Time_real(i+1)-Time_real(i)) ;
+    COM_all_vel(i) = (COM_all(i+1)-COM_all(i))/(Time_real(i+1)-Time_real(i)) ;
 end
 
-COM_vel_all{c,s} = COM_vel;
+COM_all_vel_all{c,s} = COM_all_vel;
 
-COM_plus_speed = [];
-COM_plus_speed_Right = dtm.RightBeltSpeed_s_filt(1:end-1,1) + COM_vel';
-COM_plus_speed_Left = dtm.LeftBeltSpeed_s_filt(1:end-1,1) + COM_vel';
+COM_all_plus_speed = [];
+COM_all_plus_speed_Right = dtm.RightBeltSpeed_s_filt(1:end-1,1) + COM_all_vel';
+COM_all_plus_speed_Left = dtm.LeftBeltSpeed_s_filt(1:end-1,1) + COM_all_vel';
 
 
       for i = 1:length(GEgood(:,1))
-            steplength_speed(i,1) = nanmean(COM_plus_speed_Right(GEgood(i,1):GEgood(i,3)));
-            steplength_speed(i,2) = nanmean(COM_plus_speed_Left(GEgood(i,3):GEgood(i,5)));
+            steplength_speed(i,1) = nanmean(COM_all_plus_speed_Right(GEgood(i,1):GEgood(i,3)));
+            steplength_speed(i,2) = nanmean(COM_all_plus_speed_Left(GEgood(i,3):GEgood(i,5)));
       end  
       
       for i = 1:length(GEgood(:,1))
@@ -397,10 +409,12 @@ end
     end
 end
 %% Clean workspace
-clear a b bins BW COM COM_plus_speed counts Dflow_size e fc HSrefinePost HSrefinePre i istart m NOG Start_Time GE llmarkers P Time_df Time_df_s Time_df_v1 Time_real TOminpeakdistance TOminpeakheight sl_temp Total tf sw_temp Stop_Time stopidx startidx start_values start_value_pref dtm dflow_file dflow_treadmill_file fh;
+clear a b bins BW COM_all_plus_speed counts Dflow_size e fc HSrefinePost HSrefinePre i istart m NOG Start_Time GE llmarkers P Time_df Time_df_s Time_df_v1 Time_real TOminpeakdistance TOminpeakheight sl_temp Total tf sw_temp Stop_Time stopidx startidx start_values start_value_pref dtm dflow_file dflow_treadmill_file fh;
 clear fitplot_actual_steplength fitplot_fitted_steplength fitplot_speed fitplot_stepfitted_minus_actualstep forces_df start_vlue_pref start_values startidx steplength_speed steplength_speed_all steplength_time steplength_time_all Stop_Time stopidx Frame_df Frame_df_s Frame_df_v1 LHS LTO RHS RTO ppp ;      
-%% detrended plot 
+%% string variables for plots
+subjs_s = ["SPP2" "SPP3" "SPP4" "SPP5" "SPP6" "SPP8" "SPP9" "SPP10" "SPP11" "SPP12"];
 conds_s= ["no_pert" "same_mf" "diff_f" "diff_m" "diff_fm"];
+%% detrended plot 
 m = 1;
 variation_steps.stack_p=[];
 for i=conds_s    
@@ -560,7 +574,17 @@ title('walking speed std')
 %     end
 %     title(subjs{m})
 % end
-
+%% COM plot 
+n=1;
+for i=conds_s
+    for m=subjs_s
+    figure(200)
+    subplot(2,3,n)
+    title(conds_s(n))
+    plot(COM.(i).(m)); hold on
+    end
+n=n+1;
+end   
 %% more plots 
 figure(200)
 % set(gca, 'XTick', [1,2],'XTickLabel',{'first' 'second'});
@@ -890,11 +914,11 @@ for i=1:length(stats_names)
     for e=1:3
         stats.(stats_names{i}).rm.(slopes{e})=fitrm([stats.(stats_names{i}).(slopes{e})],'Condition_050-Condition_150~1');
         stats.(stats_names{i}).rmResult.(slopes{e})=ranova(stats.(stats_names{i}).rm.(slopes{e}));
-        stats.(stats_names{i}).pairtest.(slopes{e})=multcompare(stats.(stats_names{i}).rm.(slopes{e}),'Time','ComparisonType','tukey-kramer');
+        stats.(stats_names{i}).pairtest.(slopes{e})=multCOM_allpare(stats.(stats_names{i}).rm.(slopes{e}),'Time','COM_allparisonType','tukey-kramer');
     end
 end
 
-% compare slopes 
+% COM_allpare slopes 
 
 stats.speed_allslopes.slopes_means=table(ws.(conds{1}).allsubjsdata,ws.(conds{1}).alldata,ws.(conds{2}).alldata,ws.(conds{3}).alldata,ws.(conds{4}).alldata,ws.(conds{5}).alldata,'VariableNames',["subjs" "no_pert" "same_mf" "diff_f" "diff_m" "diff_fm"]);
 % stats.speed_allslopes.slopes_means=table(ws.('subjsalldataconds'),ws.([subjs{1} 'alldata']),ws.([subjs{2} 'alldata']),ws.([subjs{3} 'alldata']),ws.([subjs{4} 'alldata']),ws.([subjs{5} 'alldata']),ws.([subjs{6} 'alldata']),ws.([subjs{7} 'alldata']),ws.([subjs{8} 'alldata']),'VariableNames',{'conditions','subject1','subject2','subject3','subject4','subject5','subject6','subject7','subject8'});
@@ -917,7 +941,7 @@ end
 for e=1:5
         stats.speed_allslopes.rm.slopes_means=fitrm(stats.speed_allslopes.slopes_means,'no_pert-diff_fm~1','WithinDesign');
         stats.speed_allslopes.rmResult.slopes_means=ranova(stats.speed_allslopes.rm.slopes_means);
-        stats.speed_allslopes.pairtest.slopes_means=multcompare(rm,'conditions','ComparisonType','tukey-kramer');
+        stats.speed_allslopes.pairtest.slopes_means=multCOM_allpare(rm,'conditions','COM_allparisonType','tukey-kramer');
 end
 
 %% NACOB fig 
