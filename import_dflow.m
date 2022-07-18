@@ -1,4 +1,4 @@
-function [Frame, Time, markers, forces, startidx, stopidx, Total] = import_dflow(dflow_file)
+function [Frame, Time, markers, forces, startidx, stopidx, Total] = import_dflow(dflow_file,subj,cond)
 
 %% Imports data from an D-FLOW txt file into matlab
 %
@@ -24,13 +24,33 @@ formatspec = repmat('%f ',1,N);
 tempdata = textscan(file_id, sprintf('%s', formatspec), 'delimiter', ',');
 tempdatamat = cell2mat(tempdata);
 
-for i=1:length(tempdatamat)-500
-    if ismember(-999999,tempdatamat(i,:))
-       tempdatamat(i,:)=[];
-    else
-    end
-end
-        
+% badsubj = {'SPP15'}; 
+% badcond = {'1'};
+% 
+% if strcmp(subj,badsubj) && strcmp(cond,badcond)
+%     n=30;
+%     for i=1:length(tempdatamat)-2000
+%         if ismember(-999999,tempdatamat(i,:))
+%             tempdatamat(i,:)=[];
+%         else
+%         end
+%     end
+% else
+%     for i=1:length(tempdatamat)-500
+%         if ismember(-999999,tempdatamat(i,:))
+%             tempdatamat(i,:)=[];
+%         else
+%         end
+%     end
+% end 
+
+% for i=1:length(tempdatamat)-500
+%     if ismember(-999999,tempdatamat(i,:))
+%        tempdatamat(i,:)=[];
+%     else
+%     end
+% end
+%         
 % for i=1:length(tempdatamat)-500
 %    x = ismember(-999999,tempdatamat(i,:));
 % end

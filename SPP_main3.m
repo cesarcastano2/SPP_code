@@ -4,13 +4,13 @@ clearvars
 clc
 
 % subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
-% subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
-subjs = {'SPP23'};
+subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
+% subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP16' 'SPP17' 'SPP19' 'SPP21' 'SPP22'};
 
-% subjs = {'SPP15' 'SPP16' 'SPP22'};
+% subjs = {'SPP16'};
 
 conds_f = {'0' '1' '2' '3' '4'};
-% conds_f = {'0'};
+% conds_f = {'4'};
 
 conds = {'no_pert' 'same_mf' 'diff_f' 'diff_m' 'diff_fm'};
 % conds = {'no_pert'};
@@ -40,7 +40,7 @@ for s = 1:length(subjs)
             dflow_treadmill_file = [PathName FileName];
           end
           
-          [Frame_df, Time_df, markers_df, forces_df, startidx, stopidx, Total] = import_dflow(dflow_file);
+          [Frame_df, Time_df, markers_df, forces_df, startidx, stopidx, Total] = import_dflow(dflow_file,subjs(s),conds_f(c));
          
           datatreadmill_all.(conds{c}) = importTreadmillFile_SPP2(dflow_treadmill_file);
 %           
@@ -168,6 +168,15 @@ end
         LTO = LTO';
         LHS = LHS';
         RTO = RTO';
+        
+if strcmp(subjs(s),'SPP16') && strcmp(conds_f(c),'4')
+   RHS = [RHS(1:54); 11170; RHS(55:369)];
+   RTO = [RTO(1:54); 11100; RTO(55:369)];
+    GE(:,1)=RHS;
+    GE(:,2)=LTO;
+    GE(:,3)=LHS;
+    GE(:,4)=RTO;
+end
         GEgood=GE;
        
 %         acceptable = GEgood(:,1)>7200;
@@ -199,9 +208,9 @@ end
 %         plot(GEgood(:,1), zeros(size(GEgood(:,1))), 'rx', GEgood(:,2), zeros(size(GEgood(:,1))), 'bo', GEgood(:,3), zeros(size(GEgood(:,1))), 'bx', GEgood(:,4), zeros(size(GEgood(:,1))), 'ro', GEgood(:,5), zeros(size(GEgood(:,1))), 'rx')
 %         ylimits = ylim(gca);
 %         title([subjs{s} ', ' conds{c}])
-%         %             axis([0 RHS(10) ylimits(1) ylimits(2)]);
-% %         savefig(h,'Incline_gait_ACC.fig')
-% %         close(gcf)
+        %             axis([0 RHS(10) ylimits(1) ylimits(2)]);
+% % %         savefig(h,'Incline_gait_ACC.fig')
+% % %         close(gcf)
 %% analysis
 COM_x=(markers_df_c.RASI(:,1)+markers_df_c.LASI(:,1)+markers_df_c.RPSI(:,1)+markers_df_c.LPSI(:,1))/4;
 COM.(conds{c}).(subjs{s})(:,1) = COM_x;
@@ -414,6 +423,13 @@ clear fitplot_actual_steplength fitplot_fitted_steplength fitplot_speed fitplot_
 %% string variables for plots
 subjs_s = ["SPP2" "SPP3" "SPP4" "SPP5" "SPP6" "SPP8" "SPP9" "SPP10" "SPP11" "SPP12"];
 conds_s= ["no_pert" "same_mf" "diff_f" "diff_m" "diff_fm"];
+
+%% grouping kinematics 
+kinem.sl = sl;
+kinem.sf = sf;
+kinem.sw = sw;
+kinem.ws = ws;
+
 %% detrended plot 
 m = 1;
 variation_steps.stack_p=[];
