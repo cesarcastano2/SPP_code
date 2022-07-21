@@ -324,43 +324,43 @@ COM_all_plus_speed_Left = dtm.LeftBeltSpeed_s_filt(1:end-1,1) + COM_all_vel';
 
 % detrended analysis      
 
-if strcmp((subjs{s}),('SPP13')) && strcmp((conds{s}),('no_pert'))
-        NOG = (length(steplength_speed_all)) - 60;
-        
-        
-        [P,fh] = fitsinglemodelprocess_sl(sl.(conds{c}).(subjs{s})(NOG:end),ws.(conds{c}).(subjs{s})(NOG:end));
-        p.(conds{c})(s,:) = P;
-        
-        fitplot_fitted_steplength.(conds{c}).(subjs{s}) = fh(ws.(conds{c}).(subjs{s})(NOG:end),P);
-        fitplot_stepfitted_minus_actualstep.(conds{c}).(subjs{s}) = (sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-        fitplot_speed.(conds{c}).(subjs{s}) = ws.(conds{c}).(subjs{s})(NOG:end);
-        fitplot_actual_steplength.(conds{c}).(subjs{s}) = sl.(conds{c}).(subjs{s})(NOG:end);
-        
-        variation_steps.(conds{c}).slminusfit(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-        variation_steps.(conds{c}).speedtrend(s,:) = var(fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-        variation_steps.(conds{c}).totalvar(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end));
-        variation_steps.(conds{c}).totalstd(s,:) = std(sl.(conds{c}).(subjs{s})(NOG:end));
-        variation_steps.(conds{c}).speedvar(s,:) = var(ws.(conds{c}).(subjs{s})(NOG:end));
-        variation_steps.(conds{c}).speedmean(s,:) = mean(ws.(conds{c}).(subjs{s})(NOG:end));
-else
-        NOG = (length(steplength_speed_all)) - 400;
-        
-        
-        [P,fh] = fitsinglemodelprocess_sl(sl.(conds{c}).(subjs{s})(NOG:end),ws.(conds{c}).(subjs{s})(NOG:end));
-        p.(conds{c})(s,:) = P;
-        
-        fitplot_fitted_steplength.(conds{c}).(subjs{s}) = fh(ws.(conds{c}).(subjs{s})(NOG:end),P);
-        fitplot_stepfitted_minus_actualstep.(conds{c}).(subjs{s}) = (sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-        fitplot_speed.(conds{c}).(subjs{s}) = ws.(conds{c}).(subjs{s})(NOG:end);
-        fitplot_actual_steplength.(conds{c}).(subjs{s}) = sl.(conds{c}).(subjs{s})(NOG:end);
-        
-        variation_steps.(conds{c}).slminusfit(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-        variation_steps.(conds{c}).speedtrend(s,:) = var(fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-        variation_steps.(conds{c}).totalvar(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end));
-        variation_steps.(conds{c}).totalstd(s,:) = std(sl.(conds{c}).(subjs{s})(NOG:end));
-        variation_steps.(conds{c}).speedvar(s,:) = var(ws.(conds{c}).(subjs{s})(NOG:end));
-        variation_steps.(conds{c}).speedmean(s,:) = mean(ws.(conds{c}).(subjs{s})(NOG:end));
-end
+% if strcmp((subjs{s}),('SPP13')) && strcmp((conds{s}),('no_pert'))
+%         NOG = (length(steplength_speed_all)) - 60;
+%         
+%         
+%         [P,fh] = fitsinglemodelprocess_sl(sl.(conds{c}).(subjs{s})(NOG:end),ws.(conds{c}).(subjs{s})(NOG:end));
+%         p.(conds{c})(s,:) = P;
+%         
+%         fitplot_fitted_steplength.(conds{c}).(subjs{s}) = fh(ws.(conds{c}).(subjs{s})(NOG:end),P);
+%         fitplot_stepfitted_minus_actualstep.(conds{c}).(subjs{s}) = (sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
+%         fitplot_speed.(conds{c}).(subjs{s}) = ws.(conds{c}).(subjs{s})(NOG:end);
+%         fitplot_actual_steplength.(conds{c}).(subjs{s}) = sl.(conds{c}).(subjs{s})(NOG:end);
+%         
+%         variation_steps.(conds{c}).slminusfit(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
+%         variation_steps.(conds{c}).speedtrend(s,:) = var(fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
+%         variation_steps.(conds{c}).totalvar(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end));
+%         variation_steps.(conds{c}).totalstd(s,:) = std(sl.(conds{c}).(subjs{s})(NOG:end));
+%         variation_steps.(conds{c}).speedvar(s,:) = var(ws.(conds{c}).(subjs{s})(NOG:end));
+%         variation_steps.(conds{c}).speedmean(s,:) = mean(ws.(conds{c}).(subjs{s})(NOG:end));
+% else
+%         NOG = (length(steplength_speed_all)) - 400;
+%         
+%         
+%         [P,fh] = fitsinglemodelprocess_sl(sl.(conds{c}).(subjs{s})(NOG:end),ws.(conds{c}).(subjs{s})(NOG:end));
+%         p.(conds{c})(s,:) = P;
+%         
+%         fitplot_fitted_steplength.(conds{c}).(subjs{s}) = fh(ws.(conds{c}).(subjs{s})(NOG:end),P);
+%         fitplot_stepfitted_minus_actualstep.(conds{c}).(subjs{s}) = (sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
+%         fitplot_speed.(conds{c}).(subjs{s}) = ws.(conds{c}).(subjs{s})(NOG:end);
+%         fitplot_actual_steplength.(conds{c}).(subjs{s}) = sl.(conds{c}).(subjs{s})(NOG:end);
+%         
+%         variation_steps.(conds{c}).slminusfit(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
+%         variation_steps.(conds{c}).speedtrend(s,:) = var(fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
+%         variation_steps.(conds{c}).totalvar(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end));
+%         variation_steps.(conds{c}).totalstd(s,:) = std(sl.(conds{c}).(subjs{s})(NOG:end));
+%         variation_steps.(conds{c}).speedvar(s,:) = var(ws.(conds{c}).(subjs{s})(NOG:end));
+%         variation_steps.(conds{c}).speedmean(s,:) = mean(ws.(conds{c}).(subjs{s})(NOG:end));
+% end
 
 %% plots 
     
