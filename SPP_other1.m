@@ -4,10 +4,10 @@ clearvars
 clc
 
 % subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
-% subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
+subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
 % subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP16' 'SPP17' 'SPP19' 'SPP21' 'SPP22'};
 
-subjs = {'SPP4'};
+% subjs = {'SPP3'};
 
 conds_f = {'0' '1' '2' '3' '4'};
 % conds_f = {'4'};
@@ -186,13 +186,13 @@ if strcmp(subjs(s),'SPP2') && strcmp(conds_f(c),'3')
     GE(:,3)=LHS;
     GE(:,4)=RTO; 
 end
-if strcmp(subjs(s),'SPP3') && strcmp(conds_f(c),'2')
-   RTO = [645; RTO(1:73)];
-    GE(:,1)=RHS;
-    GE(:,2)=LTO;
-    GE(:,3)=LHS;
-    GE(:,4)=RTO;
-end
+% if strcmp(subjs(s),'SPP3') && strcmp(conds_f(c),'4')
+%    RTO = [645; RTO(1:73)];
+%     GE(:,1)=RHS;
+%     GE(:,2)=LTO;
+%     GE(:,3)=LHS;
+%     GE(:,4)=RTO;
+% end
         GEgood=GE;
        
 %         acceptable = GEgood(:,1)>7200;
@@ -446,7 +446,7 @@ kinem.sf = sf;
 kinem.sw = sw;
 kinem.ws = ws;
 
-save first_kinem_y kinem
+save pre_kinem_y pre_kinem_y
 %% detrended plot 
 m = 1;
 variation_steps.stack_p=[];
