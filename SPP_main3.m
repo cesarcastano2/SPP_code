@@ -4,13 +4,13 @@ clearvars
 clc
 
 % subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
-subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
+% subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
 % subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP16' 'SPP17' 'SPP19' 'SPP21' 'SPP22'};
 
-% subjs = {'SPP16'};
+subjs = {'SPP2'};
 
-conds_f = {'0' '1' '2' '3' '4'};
-% conds_f = {'4'};
+% conds_f = {'0' '1' '2' '3' '4'};
+conds_f = {'4'};
 
 conds = {'no_pert' 'same_mf' 'diff_f' 'diff_m' 'diff_fm'};
 % conds = {'no_pert'};

@@ -4,10 +4,10 @@ clearvars
 clc
 
 % subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
-subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
+% subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
 % subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP16' 'SPP17' 'SPP19' 'SPP21' 'SPP22'};
 
-% subjs = {'SPP16'};
+subjs = {'SPP4'};
 
 conds_f = {'0' '1' '2' '3' '4'};
 % conds_f = {'4'};
@@ -68,9 +68,9 @@ for s = 1:length(subjs)
        dtm.RightBeltSpeed  = interpft(tf.speed.(conds{c})(:),length(Frame_df));
        dtm.Time_mark = interpft(tf.time_mark.(conds{c})(:),length(Frame_df));
        dtm.stride = interpft(tf.stride.(conds{c})(:),length(Frame_df));
-       dtm.sway = interp1(tf.sway.(conds{c})(:),1:length(Frame_df));
+       dtm.sway = interpft(tf.sway.(conds{c})(:),length(Frame_df));
 
-       dtm.sway_v1 = (dtm.sway(startidx:stopidx))';       
+       dtm.sway_v1 = (dtm.sway(startidx:stopidx));       
        dtm.stride_v1 = dtm.stride(startidx:stopidx);
        dtm.Time_mark_v1 = dtm.Time_mark(startidx:stopidx);
        dtm.Time_v1 = dtm.Time(startidx:stopidx);
@@ -100,7 +100,7 @@ if c==1
     Stop_Time = find(dtm.Time_mark_v1 < (round(dtm.Time_mark_v1(end))-2),1,'last');
 else
     istart = find(dtm.stride_v1 < 480,1,'last');
-    Stop_Time = find(dtm.stride_v1 < 540,1,'last');
+    Stop_Time = find(dtm.stride_v1 < 560,1,'last');
 end
        
         start_values = istart;       
@@ -172,6 +172,13 @@ end
 if strcmp(subjs(s),'SPP16') && strcmp(conds_f(c),'4')
    RHS = [RHS(1:54); 11170; RHS(55:369)];
    RTO = [RTO(1:54); 11100; RTO(55:369)];
+    GE(:,1)=RHS;
+    GE(:,2)=LTO;
+    GE(:,3)=LHS;
+    GE(:,4)=RTO;
+end
+if strcmp(subjs(s),'SPP3') && strcmp(conds_f(c),'2')
+   RTO = [535; RTO(1:76)];
     GE(:,1)=RHS;
     GE(:,2)=LTO;
     GE(:,3)=LHS;
