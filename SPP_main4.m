@@ -4,10 +4,10 @@ clearvars
 clc
 
 % subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
-% subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
-% subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP16' 'SPP17' 'SPP19' 'SPP21' 'SPP22'};
+subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
+% subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP16' 'SPP17' 'SPP19' 'SPP21' 'SPP22' 'SPP24'};
 
-subjs = {'SPP23'};
+% subjs = {'SPP23'};
 
 conds_f = {'0' '1' '2' '3' '4'};
 % conds_f = {'4'};
@@ -169,6 +169,13 @@ end
         LHS = LHS';
         RTO = RTO';
         
+% if strcmp(subjs(s),'SPP23') && strcmp(conds_f(c),'1')
+%    RHS(1) = [];
+%     GE(:,1)=RHS;
+%     GE(:,2)=LTO;
+%     GE(:,3)=LHS;
+%     GE(:,4)=RTO;
+% end        
 if strcmp(subjs(s),'SPP16') && strcmp(conds_f(c),'2')
    RHS(1) = [];
     GE(:,1)=RHS;
@@ -444,7 +451,8 @@ kinem.sl = sl;
 kinem.sf = sf;
 kinem.sw = sw;
 kinem.ws = ws;
-save main_kinem_o kinem_o
+save main_kinem_y kinem_y
+save detrend_y detrend_y
 %% detrended plot 
 m = 1;
 variation_steps.stack_p=[];
@@ -605,6 +613,8 @@ title('walking speed std')
 %     end
 %     title(subjs{m})
 % end
+
+
 %% COM plot 
 n=1;
 for i=conds_s
