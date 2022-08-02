@@ -564,7 +564,7 @@ z2 = repmat(x2,1,9);
 % for m=1:length(subjs)
     for i=1:length(conds)
         figure(110)
-        subplot(4,2,1)
+        subplot(3,2,1)
 %         xlim([0 6])
 %         ylim([0.6 0.85])
           boxchart(z(i,:),kinem_y.sl.(conds{i}).avg,'MarkerStyle','none','BoxWidth',0.3,'BoxFaceColor','k'), hold on
@@ -582,7 +582,7 @@ title('step length avg')
 
     for i=1:length(conds)
         figure(110)
-        subplot(4,2,2)
+        subplot(3,2,2)
 %         xlim([0 6])
 %         ylim([0.6 0.85])
           boxchart(z(i,:),kinem_y.sl.(conds{i}).standdev,'MarkerStyle','none','BoxWidth',0.3,'BoxFaceColor','k'), hold on
@@ -600,7 +600,7 @@ title('step length std')
 
 for i=1:length(conds)
         figure(110)
-        subplot(4,2,3)
+        subplot(3,2,3)
 %         xlim([0 6])
 %         ylim([0.6 0.85])
           boxchart(z(i,:),kinem_y.sf.(conds{i}).avg,'MarkerStyle','none','BoxWidth',0.3,'BoxFaceColor','k'), hold on
@@ -618,7 +618,7 @@ title('step freq avg')
 
     for i=1:length(conds)
         figure(110)
-        subplot(4,2,4)
+        subplot(3,2,4)
 %         xlim([0 6])
 %         ylim([0.6 0.85])
           boxchart(z(i,:),kinem_y.sf.(conds{i}).standdev,'MarkerStyle','none','BoxWidth',0.3,'BoxFaceColor','k'), hold on
@@ -636,7 +636,7 @@ title('step freq std')
 
 for i=1:length(conds)
         figure(110)
-        subplot(4,2,5)
+        subplot(3,2,5)
 %         xlim([0 6])
 %         ylim([0.6 0.85])
           boxchart(z(i,:),kinem_y.sw.(conds{i}).avg,'MarkerStyle','none','BoxWidth',0.3,'BoxFaceColor','k'), hold on
@@ -654,7 +654,7 @@ title('step width avg')
 
     for i=1:length(conds)
         figure(110)
-        subplot(4,2,6)
+        subplot(3,2,6)
 %         xlim([0 6])
 %         ylim([0.6 0.85])
           boxchart(z(i,:),kinem_y.sw.(conds{i}).standdev,'MarkerStyle','none','BoxWidth',0.3,'BoxFaceColor','k'), hold on
@@ -671,8 +671,8 @@ set(gca, 'XTick', [1,2,3,4,5],'XTickLabel',{'nop' 'same t&m' 'dif time' 'dif mag
 title('step width std')
 
 for i=1:length(conds)
-        figure(110)
-        subplot(4,2,7)
+        figure(111)
+        subplot(1,2,1)
 %         xlim([0 6])
 %         ylim([0.6 0.85])
           boxchart(z(i,:),kinem_y.ws.(conds{i}).avg,'MarkerStyle','none','BoxWidth',0.3,'BoxFaceColor','k'), hold on
@@ -684,25 +684,97 @@ for i=1:length(conds)
 %         errorbar(i - w,mean(kinem_y.ws.(conds{i}).avg),mean(kinem_y.ws.(conds{i}).standdev),'k.'), hold on
     end
 % end
-figure(110)
+figure(111)
 set(gca, 'XTick', [1,2,3,4,5],'XTickLabel',{'nop' 'same t&m' 'dif time' 'dif mag' 'dif t&m'});
 title('walking speed avg')
 
     for i=1:length(conds)
-        figure(110)
-        subplot(4,2,8)
+        figure(111)
+        subplot(1,2,2)
 %         xlim([0 6])
 %         ylim([0.6 0.85])
+%           boxplot(z(i,:),kinem_y.ws.(conds{i}).standdev,'Colors','k','Whisker',3,'PlotStyle','compact'), hold on
+%           boxplot(z2(i,:),kinem_o.ws.(conds{i}).standdev,'Colors','r','Whisker',3,'PlotStyle','compact'), hold on
           boxchart(z(i,:),kinem_y.ws.(conds{i}).standdev,'MarkerStyle','none','BoxWidth',0.3,'BoxFaceColor','k'), hold on
           boxchart(z2(i,:),kinem_o.ws.(conds{i}).standdev,'MarkerStyle','none','BoxWidth',0.3,'BoxFaceColor','r'), hold on
-
 %         plot(i,mean(kinem_y.ws.(conds{i}).avg),'k.','MarkerSize',20), hold on
-          plot(x(i)- w,kinem_y.ws.(conds{i}).standdev,'k.','MarkerSize',4), hold on
-          plot(x2(i) + w2,kinem_o.ws.(conds{i}).standdev,'r.','MarkerSize',4), hold on
+%           plot(x(i)- w,kinem_y.ws.(conds{i}).standdev,'k.','MarkerSize',4), hold on
+%           plot(x2(i) + w2,kinem_o.ws.(conds{i}).standdev,'r.','MarkerSize',4), hold on
 %         errorbar(i - w,mean(kinem_y.ws.(conds{i}).avg),mean(kinem_y.ws.(conds{i}).standdev),'k.'), hold on
     end
 % end
-figure(110)
+figure(111)
 set(gca, 'XTick', [1,2,3,4,5],'XTickLabel',{'nop' 'same t&m' 'dif time' 'dif mag' 'dif t&m'});
 title('walking speed std')
+%% detrended old vs young - subplots
+load detrend_y
+load detrend_o
+
+conds = {'no_pert' 'same_mf' 'diff_f' 'diff_m' 'diff_fm'};
+conds_s= ["no_pert" "same_mf" "diff_f" "diff_m" "diff_fm"];
+m = 1;
+comb_stack = zeros(10,2);
+detrend_y.stack_p=[];
+for i=conds_s    
+detrend_y.(i).det_avg = mean(detrend_y.(i).slminusfit);
+detrend_y.(i).speedt_avg = mean(detrend_y.(i).speedtrend);
+yng_stack(m,:) = [mean(detrend_y.(i).slminusfit), mean(detrend_y.(i).speedtrend)];
+m = m + 1;
+end
+
+figure(112)
+subplot(1,4,1)
+bar([1,2,3,4,5],yng_stack,'stacked')
+set(gca, 'XTick', [1,2,3,4,5],'XTickLabel',{'no pert' 'same mf' 'diff f' 'diff m' 'diff fm'});
+ylim([0 0.003])
+ylabel('variance (m^2)')
+title('Young stacked')
+
+m = 1;
+for i=conds_s    
+detrend_o.(i).det_avg = mean(detrend_o.(i).slminusfit);
+detrend_o.(i).speedt_avg = mean(detrend_o.(i).speedtrend);
+old_stack(m,:) = [mean(detrend_o.(i).slminusfit), mean(detrend_o.(i).speedtrend)];
+m = m + 1;
+end
+
+figure(112)
+subplot(1,4,2)
+bar([1,2,3,4,5],old_stack,'stacked')
+ylim([0 0.003])
+set(gca, 'XTick', [1,2,3,4,5],'XTickLabel',{'no pert' 'same mf' 'diff f' 'diff m' 'diff fm'});
+ylabel('variance (m^2)')
+title('Old stacked')
+
+m = 1;
+comb_stack = zeros(10,2);
+detrend_y.stack_p=[];
+for i=conds_s    
+detrend_y.(i).det_avg = mean(detrend_y.(i).slminusfit);
+detrend_o.(i).det_avg = mean(detrend_o.(i).slminusfit);
+comb_stack_detrend(m,:) = [mean(detrend_y.(i).slminusfit), mean(detrend_o.(i).slminusfit)];
+m = m + 1;
+end
+
+figure(112)
+subplot(1,4,3)
+bar([1,2,3,4,5],comb_stack_detrend)
+ylim([0 0.002])
+set(gca, 'XTick', [1,2,3,4,5],'XTickLabel',{'no pert' 'same mf' 'diff f' 'diff m' 'diff fm'});
+title('Detrend young vs old')
+
+m = 1;
+for i=conds_s    
+detrend_y.(i).speedt_avg = mean(detrend_y.(i).speedtrend);
+detrend_o.(i).speedt_avg = mean(detrend_o.(i).speedtrend);
+comb_stack_speedt(m,:) = [mean(detrend_y.(i).speedtrend), mean(detrend_o.(i).speedtrend)];
+m = m + 1;
+end
+
+figure(112)
+subplot(1,4,4)
+bar([1,2,3,4,5],comb_stack_speedt)
+ylim([0 0.002]) 
+set(gca, 'XTick', [1,2,3,4,5],'XTickLabel',{'no pert' 'same mf' 'diff f' 'diff m' 'diff fm'});
+title('Speedtrend young vs old')
 
