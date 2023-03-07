@@ -26,12 +26,12 @@ tempdatamat = cell2mat(tempdata);
 
 % if strcmp(subjs(s),'SPP16') && strcmp(conds_f(c),'2')
 
-for i=1:length(tempdatamat)-500
-    if ismember(-999999,tempdatamat(i,:))
-       tempdatamat(i,:)=[];
-    else
-    end
-end
+% for i=1:length(tempdatamat)-500
+%     if ismember(-999999,tempdatamat(i,:))
+%        tempdatamat(i,:)=[];
+%     else
+%     end
+% end
         
 % for i=1:length(tempdatamat)-500
 %    x = ismember(-999999,tempdatamat(i,:));

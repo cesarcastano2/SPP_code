@@ -3,11 +3,11 @@ close all
 clearvars
 clc
 
-% subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
 % subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
-% subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP16' 'SPP17' 'SPP19' 'SPP21' 'SPP22'};
+% subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP16' 'SPP17' 'SPP19' 'SPP21' 'SPP22' 'SPP24'};
 
-subjs = {'SPP4'};
+% subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP17' 'SPP19' 'SPP21' 'SPP24'};
+subjs = {'SPP2' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
 
 conds_f = {'0' '1' '2' '3' '4'};
 % conds_f = {'4'};
@@ -17,7 +17,7 @@ conds = {'no_pert' 'same_mf' 'diff_f' 'diff_m' 'diff_fm'};
 
 
 fs = 240; %hz, resamp tm to df rate
-proj = 'Z:\SPP\subjects\';
+proj = 'F:\SPP\subjects\';
 % proj = 'X:\SPP\subjects'; %NAS COM_allputer
 
 
@@ -169,21 +169,29 @@ end
         LHS = LHS';
         RTO = RTO';
         
-if strcmp(subjs(s),'SPP16') && strcmp(conds_f(c),'4')
-   RHS = [RHS(1:54); 11170; RHS(55:369)];
-   RTO = [RTO(1:54); 11100; RTO(55:369)];
+if strcmp(subjs(s),'SPP21') && strcmp(conds_f(c),'3')
+    RTO = [421; RTO(1:74)];
     GE(:,1)=RHS;
     GE(:,2)=LTO;
     GE(:,3)=LHS;
     GE(:,4)=RTO;
 end
-if strcmp(subjs(s),'SPP3') && strcmp(conds_f(c),'2')
-   RTO = [535; RTO(1:76)];
-    GE(:,1)=RHS;
-    GE(:,2)=LTO;
-    GE(:,3)=LHS;
-    GE(:,4)=RTO;
-end
+        
+% if strcmp(subjs(s),'SPP16') && strcmp(conds_f(c),'4')
+%    RHS = [RHS(1:54); 11170; RHS(55:369)];
+%    RTO = [RTO(1:54); 11100; RTO(55:369)];
+%     GE(:,1)=RHS;
+%     GE(:,2)=LTO;
+%     GE(:,3)=LHS;
+%     GE(:,4)=RTO;
+% end
+% if strcmp(subjs(s),'SPP3') && strcmp(conds_f(c),'2')
+%    RTO = [535; RTO(1:76)];
+%     GE(:,1)=RHS;
+%     GE(:,2)=LTO;
+%     GE(:,3)=LHS;
+%     GE(:,4)=RTO;
+% end
         GEgood=GE;
        
 %         acceptable = GEgood(:,1)>7200;
@@ -218,6 +226,7 @@ end
         %             axis([0 RHS(10) ylimits(1) ylimits(2)]);
 % % %         savefig(h,'Incline_gait_ACC.fig')
 % % %         close(gcf)
+
 %% analysis
 COM_x=(markers_df_c.RASI(:,1)+markers_df_c.LASI(:,1)+markers_df_c.RPSI(:,1)+markers_df_c.LPSI(:,1))/4;
 COM.(conds{c}).(subjs{s})(:,1) = COM_x;
@@ -371,6 +380,7 @@ COM_all_plus_speed_Left = dtm.LeftBeltSpeed_s_filt(1:end-1,1) + COM_all_vel';
 
 %% plots 
     
+% 
 %         figure(3)
 %         subplot(2,3,c)
 % %         ylim([0.4 0.9])
@@ -395,12 +405,6 @@ COM_all_plus_speed_Left = dtm.LeftBeltSpeed_s_filt(1:end-1,1) + COM_all_vel';
 %         plot(ws.(conds{c}).(subjs{s})); hold on,
 % %         ylim([0 0.3])
 %         title((conds{c}))
-       
-%         figure(7)
-%         subplot(2,3,c)
-%         plot(dtm.sway_s,'k-'), hold on
-%         plot(GEgood(1:4:size(GEgood(:,1)),1),zeros(size(GEgood(1:4:size(GEgood(:,1)),1))),'r.')
-% 
 %         
         
 %         figure(8)
@@ -436,3 +440,5 @@ kinem.sl = sl;
 kinem.sf = sf;
 kinem.sw = sw;
 kinem.ws = ws;
+
+save post_kinem_y post_kinem_y

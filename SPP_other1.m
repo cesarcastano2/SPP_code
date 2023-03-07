@@ -3,9 +3,10 @@ close all
 clearvars
 clc
 
-% subjs = {'SPP2' 'SPP3' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11'};
-subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
-% subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP16' 'SPP17' 'SPP19' 'SPP21' 'SPP22'};
+% subjs = {'SPP2' 'SPP3' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
+% subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP16' 'SPP17' 'SPP19' 'SPP21' 'SPP22' 'SPP24'};
+% subjs = {'SPP2' 'SPP4' 'SPP5' 'SPP6' 'SPP8' 'SPP9' 'SPP10' 'SPP11' 'SPP12'};
+subjs = {'SPP13' 'SPP14' 'SPP15' 'SPP17' 'SPP19' 'SPP21' 'SPP22' 'SPP24'};
 
 % subjs = {'SPP3'};
 
@@ -17,7 +18,8 @@ conds = {'no_pert' 'same_mf' 'diff_f' 'diff_m' 'diff_fm'};
 
 
 fs = 240; %hz, resamp tm to df rate
-proj = 'Z:\SPP\subjects\';
+proj = 'F:\SPP\subjects\';
+% proj = 'Z:\SPP\subjects\';
 % proj = 'X:\SPP\subjects'; %NAS COM_allputer
 
 
@@ -171,14 +173,30 @@ end
         LHS = LHS';
         RTO = RTO';
         
-% if strcmp(subjs(s),'SPP16') && strcmp(conds_f(c),'4')
-%    RHS = [RHS(1:54); 11170; RHS(55:369)];
-%    RTO = [RTO(1:54); 11100; RTO(55:369)];
+% if strcmp(subjs(s),'SPP16') && strcmp(conds_f(c),'2')
+%    RHS(1) = [];
 %     GE(:,1)=RHS;
 %     GE(:,2)=LTO;
 %     GE(:,3)=LHS;
 %     GE(:,4)=RTO;
 % end
+% if strcmp(subjs(s),'SPP16') && strcmp(conds_f(c),'4')
+%    RHS(1) = [];
+%    RHS = [RHS(1:79); 16250; RHS(80:394)];
+%    RTO = [RTO(1:78); 16205; RTO(79:394)];
+%     GE(:,1)=RHS;
+%     GE(:,2)=LTO;
+%     GE(:,3)=LHS;
+%     GE(:,4)=RTO;
+% end
+% if strcmp(subjs(s),'SPP3') && strcmp(conds_f(c),'4')
+%    RHS(1) = [];
+%     GE(:,1)=RHS;
+%     GE(:,2)=LTO;
+%     GE(:,3)=LHS;
+%     GE(:,4)=RTO; 
+% end
+
 if strcmp(subjs(s),'SPP2') && strcmp(conds_f(c),'3')
    RHS(1) = [];
     GE(:,1)=RHS;
@@ -186,13 +204,7 @@ if strcmp(subjs(s),'SPP2') && strcmp(conds_f(c),'3')
     GE(:,3)=LHS;
     GE(:,4)=RTO; 
 end
-% if strcmp(subjs(s),'SPP3') && strcmp(conds_f(c),'4')
-%    RTO = [645; RTO(1:73)];
-%     GE(:,1)=RHS;
-%     GE(:,2)=LTO;
-%     GE(:,3)=LHS;
-%     GE(:,4)=RTO;
-% end
+
         GEgood=GE;
        
 %         acceptable = GEgood(:,1)>7200;
@@ -204,6 +216,7 @@ end
         leftheel_GE = repmat(GEgood(2:end,3),1);
         GEgood(end,:)=[];
         GEgood(:,5)=PPP;
+        
         
         %% Convert to conventional coords
         for m = 1:length(markers_df_s.labels)
@@ -338,72 +351,33 @@ COM_all_plus_speed_Left = dtm.LeftBeltSpeed_s_filt(1:end-1,1) + COM_all_vel';
         sf.(subjs{s}).avg_halfs(c,:) = [mean(1./steplength_time_all(1:(sf.ss/2))) mean(1./steplength_time_all((sf.ss/2):end))];
         sf.(subjs{s}).standdev_halfs(c,:) = [std(1./steplength_time_all(1:(sf.ss/2))) std(1./steplength_time_all((sf.ss/2):end))];
 
-% detrended analysis      
-
-% if strcmp((subjs{s}),('SPP13')) && strcmp((conds{s}),('no_pert'))
-%         NOG = (length(steplength_speed_all)) - 60;
-%         
-%         
-%         [P,fh] = fitsinglemodelprocess_sl(sl.(conds{c}).(subjs{s})(NOG:end),ws.(conds{c}).(subjs{s})(NOG:end));
-%         p.(conds{c})(s,:) = P;
-%         
-%         fitplot_fitted_steplength.(conds{c}).(subjs{s}) = fh(ws.(conds{c}).(subjs{s})(NOG:end),P);
-%         fitplot_stepfitted_minus_actualstep.(conds{c}).(subjs{s}) = (sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-%         fitplot_speed.(conds{c}).(subjs{s}) = ws.(conds{c}).(subjs{s})(NOG:end);
-%         fitplot_actual_steplength.(conds{c}).(subjs{s}) = sl.(conds{c}).(subjs{s})(NOG:end);
-%         
-%         variation_steps.(conds{c}).slminusfit(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-%         variation_steps.(conds{c}).speedtrend(s,:) = var(fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-%         variation_steps.(conds{c}).totalvar(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end));
-%         variation_steps.(conds{c}).totalstd(s,:) = std(sl.(conds{c}).(subjs{s})(NOG:end));
-%         variation_steps.(conds{c}).speedvar(s,:) = var(ws.(conds{c}).(subjs{s})(NOG:end));
-%         variation_steps.(conds{c}).speedmean(s,:) = mean(ws.(conds{c}).(subjs{s})(NOG:end));
-% else
-%         NOG = (length(steplength_speed_all)) - 400;
-%         
-%         
-%         [P,fh] = fitsinglemodelprocess_sl(sl.(conds{c}).(subjs{s})(NOG:end),ws.(conds{c}).(subjs{s})(NOG:end));
-%         p.(conds{c})(s,:) = P;
-%         
-%         fitplot_fitted_steplength.(conds{c}).(subjs{s}) = fh(ws.(conds{c}).(subjs{s})(NOG:end),P);
-%         fitplot_stepfitted_minus_actualstep.(conds{c}).(subjs{s}) = (sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-%         fitplot_speed.(conds{c}).(subjs{s}) = ws.(conds{c}).(subjs{s})(NOG:end);
-%         fitplot_actual_steplength.(conds{c}).(subjs{s}) = sl.(conds{c}).(subjs{s})(NOG:end);
-%         
-%         variation_steps.(conds{c}).slminusfit(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end) - fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-%         variation_steps.(conds{c}).speedtrend(s,:) = var(fh(ws.(conds{c}).(subjs{s})(NOG:end),P));
-%         variation_steps.(conds{c}).totalvar(s,:) = var(sl.(conds{c}).(subjs{s})(NOG:end));
-%         variation_steps.(conds{c}).totalstd(s,:) = std(sl.(conds{c}).(subjs{s})(NOG:end));
-%         variation_steps.(conds{c}).speedvar(s,:) = var(ws.(conds{c}).(subjs{s})(NOG:end));
-%         variation_steps.(conds{c}).speedmean(s,:) = mean(ws.(conds{c}).(subjs{s})(NOG:end));
-% end
 
 %% plots 
     
-        figure(3)
-        subplot(2,3,c)
-%         ylim([0.4 0.9])
-        plot(sl.(conds{c}).(subjs{s})); hold on,
-%         ylim([0.4 0.9])
-        title((conds{c}))
-        
-        figure(4)
-        subplot(2,3,c)
-        plot(sf.(conds{c}).(subjs{s})); hold on,
-%         ylim([1.6 2.4])
-        title((conds{c}))
-        
-        figure(5)
-        subplot(2,3,c)
-        plot(sw.(conds{c}).(subjs{s})); hold on,
-%         ylim([0 0.3])
-        title((conds{c}))
-        
-        figure(6)
-        subplot(2,3,c)
-        plot(ws.(conds{c}).(subjs{s})); hold on,
-%         ylim([0 0.3])
-        title((conds{c}))
+%         figure(3)
+%         subplot(2,3,c)
+% %         ylim([0.4 0.9])
+%         plot(sl.(conds{c}).(subjs{s})); hold on,
+% %         ylim([0.4 0.9])
+%         title((conds{c}))
+%         
+%         figure(4)
+%         subplot(2,3,c)
+%         plot(sf.(conds{c}).(subjs{s})); hold on,
+% %         ylim([1.6 2.4])
+%         title((conds{c}))
+%         
+%         figure(5)
+%         subplot(2,3,c)
+%         plot(sw.(conds{c}).(subjs{s})); hold on,
+% %         ylim([0 0.3])
+%         title((conds{c}))
+%         
+%         figure(6)
+%         subplot(2,3,c)
+%         plot(ws.(conds{c}).(subjs{s})); hold on,
+% %         ylim([0 0.3])
+%         title((conds{c}))
        
 %         figure(7)
 %         subplot(2,3,c)
@@ -417,20 +391,20 @@ COM_all_plus_speed_Left = dtm.LeftBeltSpeed_s_filt(1:end-1,1) + COM_all_vel';
 %         for i=1:2:size(GEgood(:,1))-2
 %         plot(1:((GEgood(i+1,1)-GEgood(i,1)+1)),dtm.sway_s(GEgood(i,1):GEgood(i+1,1))), hold on
 %         end
-        if c==4 
-            figure(3)
-            subplot(2,3,c)
-            ylabel('step length')
-            figure(4)
-            subplot(2,3,c)
-            ylabel('step frequency')
-            figure(5)
-            subplot(2,3,c)
-            ylabel('step width')
-            figure(6)
-            subplot(2,3,c)
-            ylabel('walkiing speed')
-        end
+%         if c==4 
+%             figure(3)
+%             subplot(2,3,c)
+%             ylabel('step length')
+%             figure(4)
+%             subplot(2,3,c)
+%             ylabel('step frequency')
+%             figure(5)
+%             subplot(2,3,c)
+%             ylabel('step width')
+%             figure(6)
+%             subplot(2,3,c)
+%             ylabel('walkiing speed')
+%         end
     end
 end
 %% Clean workspace
@@ -446,7 +420,7 @@ kinem.sf = sf;
 kinem.sw = sw;
 kinem.ws = ws;
 
-save pre_kinem_y pre_kinem_y
+save pre_kinem_o pre_kinem_o
 %% detrended plot 
 m = 1;
 variation_steps.stack_p=[];
